@@ -1,309 +1,168 @@
-import React, {useEffect, useState} from 'react';
-import {StatusBar, Appearance} from 'react-native';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-// Screens
-import Dashboard from './Screens/Dashboard';
-import LoginPage from './Screens/LoginPage';
-import OTPVerification from './Screens/OTPVerification';
-import CourseRegistration from './Screens/CourseRegistration';
-import CourseRegistration2 from './Screens/CourseRegistration2';
-import Notifications from './Screens/Notifications';
-import MyTerms from './Screens/MyTerms';
-import MyCourses from './Screens/MyCourses';
-import MyCourseDetails from './Screens/MyCourseDetails';
-import LessonPlan from './Screens/LessonPlan';
-import Assignments from './Screens/Assignments';
-import Results from './Screens/Results';
-import PaymentHistory from './Screens/PaymentHistory';
-import ResultTermWise from './Screens/ResultTermWise';
-import Payment from './Screens/Payment';
-import CourseFeedback from './Screens/CourseFeedback';
-import AssignmentDetails from './Screens/AssignmentDetails';
-import LessonPlansDetails from './Screens/LessonPlansDetails';
-import NotificationSettings from './Screens/NotificationSettings';
-import MyTotalDues from './Screens/MyTotalDues';
-import MyProfile from './Screens/MyProfile';
-import PaymentHistoryNew from './Screens/PaymentHistoryNew';
-import PaymentHistoryNew2 from './Screens/PaymentHistoryNew2';
-import MyGradeCard from './Screens/MyGradeCard';
-import MyGradeCardTerms from './Screens/MyGradeCardTerms';
-import MyAttendance from './Screens/MyAttendance';
-import MyAttendanceTermWise from './Screens/MyAttendanceTermWise';
-import MyAttendanceCourseWise from './Screens/MyAttendanceCourseWise';
-import MyTimeTable from './Screens/MyTimeTable';
-import MyTimeTableTermWise from './Screens/MyTimeTableTermWise';
-import MyTimeTableCourseWise from './Screens/MyTimeTableCourseWise';
-import PaymentToBePaid from './Screens/PaymentToBePaid';
-import Schedule from './Screens/Schedule';
-import AppPinLock from './Screens/AppPinLock';
-import VerifyPinLock from './Screens/VerifyPinLock';
-import CurrentCourses from './Screens/CurrentCourses';
-import SwitchAccount from './Screens/SwitchAccount';
-import ForgotPin from './Screens/ForgotPin';
-
 // Stack Navigator
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-// import Component from './components/Component';
 
-// For parameter types in stack navigation
+import StudentLogin from './screens/StudentLogin.tsx';
+import CreateAccount from './screens/CreateAccount.tsx';
+import StudentProfile from './screens/StudentProfile.tsx';
+import EditStudentProfile from './screens/EditStudentProfile.tsx';
+import ExploreCourses from './screens/ExploreCourses.tsx';
+import CourseEnroll from './screens/CourseEnroll.tsx';
+import FacultyTALogin from './screens/FacultyTALogin.tsx';
+import FacultyTADashboard from './screens/FacultyTADashboard.tsx';
+import StartNewCourse from './screens/StartNewCourse.tsx';
+import CourseDetails from './screens/CourseDetails.tsx';
+import CourseDetailsEditOrView from './screens/CourseDetailsEditOrView.tsx';
+import AddTopic from './screens/AddTopic.tsx';
+import ViewTopics from './screens/ViewTopics.tsx';
+import Topic from './screens/Topic.tsx';
+import AddVideo from './screens/AddVideo.tsx';
+import AddMaterial from './screens/AddMaterial.tsx';
+import AddAssignment from './screens/AddAssignment.tsx';
+import StudentDashboard from './screens/StudentDashboard.tsx';
+import FacultyProfile from './screens/FacultyProfile.tsx';
+import Notifications from './screens/Notifications.tsx';
+import NotificationDetails from './screens/NotificationDetails.tsx';
+
 export type RootStackParamList = {
-  Dashboard: {token: string; name: string};
-  LoginPage: undefined;
+  StudentLogin: undefined;
+  CreateAccount: undefined;
+  StudentProfile: undefined;
+  EditStudentProfile: undefined;
+  ExploreCourses: undefined;
+  CourseEnroll: {courseId: number};
+  FacultyTALogin: undefined;
+  FacultyTADashboard: undefined;
+  StartNewCourse: undefined;
+  CourseDetails: {courseId: number};
+  CourseDetailsEditOrView: {courseId: number};
+  AddTopic: {courseId: number};
+  ViewTopics: {courseId: number};
+  Topic: {courseId: number; topicId: number};
+  AddVideo: {courseId: number};
+  AddMaterial: {courseId: number};
+  AddAssignment: {courseId: number};
+  StudentDashboard: undefined;
+  FacultyProfile: undefined;
   Notifications: undefined;
-  OTPVerification: {Number: string};
-  CourseRegistration: undefined;
-  CourseRegistration2: undefined;
-  MyTerms: undefined;
-  MyCourses: undefined;
-  MyCourseDetails: undefined;
-  LessonPlan: undefined;
-  Assignments: undefined;
-  Results: undefined;
-  PaymentHistory: undefined;
-  ResultTermWise: undefined;
-  Payment: undefined;
-  CourseFeedback: undefined;
-  AssignmentDetails: undefined;
-  LessonPlansDetails: undefined;
-  NotificationSettings: undefined;
-  MyTotalDues: undefined;
-  MyProfile: undefined;
-  PaymentHistoryNew: undefined;
-  PaymentHistoryNew2: undefined;
-  MyGradeCard: undefined;
-  MyGradeCardTerms: undefined;
-  MyAttendance: undefined;
-  MyAttendanceTermWise: undefined;
-  MyAttendanceCourseWise: undefined;
-  MyTimeTable: undefined;
-  MyTimeTableTermWise: undefined;
-  MyTimeTableCourseWise: undefined;
-  PaymentToBePaid: undefined;
-  Schedule: undefined;
-  AppPinLock: undefined;
-  VerifyPinLock: undefined;
-  CurrentCourses: undefined;
-  SwitchAcount: undefined;
-  ForgotPin: undefined;
+  NotificationDetails: {notificationId: number};
 };
 
 // Create stack navigator
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App = () => {
-  const [theme, setTheme] = useState(Appearance.getColorScheme());
-  useEffect(() => {
-    const colorTheme = Appearance.getColorScheme();
-    console.log(colorTheme);
-    if (theme === 'light') {
-      setTheme('light');
-    } else {
-      setTheme('dark');
-    }
-  });
   return (
-    <>
-      <StatusBar
-        animated={true}
-        backgroundColor={theme === 'light' ? '#eee' : '#0c1319'}
-        barStyle={theme === 'light' ? 'dark-content' : 'light-content'}
-      />
-      <NavigationContainer style={{fontFamily: 'arial'}}>
-        <Stack.Navigator initialRouteName="VerifyPinLock">
-          <Stack.Screen
-            name="Dashboard"
-            component={Dashboard}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="LoginPage"
-            component={LoginPage}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="OTPVerification"
-            component={OTPVerification}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="CourseRegistration"
-            component={CourseRegistration}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="CourseRegistration2"
-            component={CourseRegistration2}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="Notifications"
-            component={Notifications}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="MyTerms"
-            component={MyTerms}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="MyCourses"
-            component={MyCourses}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="MyCourseDetails"
-            component={MyCourseDetails}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="LessonPlan"
-            component={LessonPlan}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="Assignments"
-            component={Assignments}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="Results"
-            component={Results}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="PaymentHistory"
-            component={PaymentHistory}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="ResultTermWise"
-            component={ResultTermWise}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="Payment"
-            component={Payment}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="CourseFeedback"
-            component={CourseFeedback}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="AssignmentDetails"
-            component={AssignmentDetails}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="LessonPlansDetails"
-            component={LessonPlansDetails}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="NotificationSettings"
-            component={NotificationSettings}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="MyTotalDues"
-            component={MyTotalDues}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="MyProfile"
-            component={MyProfile}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="PaymentHistoryNew"
-            component={PaymentHistoryNew}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="PaymentHistoryNew2"
-            component={PaymentHistoryNew2}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="MyGradeCard"
-            component={MyGradeCard}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="MyGradeCardTerms"
-            component={MyGradeCardTerms}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="MyAttendance"
-            component={MyAttendance}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="MyAttendanceTermWise"
-            component={MyAttendanceTermWise}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="MyAttendanceCourseWise"
-            component={MyAttendanceCourseWise}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="MyTimeTable"
-            component={MyTimeTable}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="MyTimeTableTermWise"
-            component={MyTimeTableTermWise}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="MyTimeTableCourseWise"
-            component={MyTimeTableCourseWise}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="PaymentToBePaid"
-            component={PaymentToBePaid}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="Schedule"
-            component={Schedule}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="AppPinLock"
-            component={AppPinLock}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="VerifyPinLock"
-            component={VerifyPinLock}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="CurrentCourses"
-            component={CurrentCourses}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="SwitchAccount"
-            component={SwitchAccount}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen
-            name="ForgotPin"
-            component={ForgotPin}
-            options={{headerShown: false}}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </>
-    // <FileInput/>
+    <NavigationContainer style={{fontFamily: 'arial'}}>
+      <Stack.Navigator initialRouteName="Notifications">
+        <Stack.Screen
+          name="StudentLogin"
+          component={StudentLogin}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CreateAccount"
+          component={CreateAccount}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="StudentProfile"
+          component={StudentProfile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="EditStudentProfile"
+          component={EditStudentProfile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ExploreCourses"
+          component={ExploreCourses}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CourseEnroll"
+          component={CourseEnroll}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="FacultyTALogin"
+          component={FacultyTALogin}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="FacultyTADashboard"
+          component={FacultyTADashboard}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="StartNewCourse"
+          component={StartNewCourse}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CourseDetails"
+          component={CourseDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CourseDetailsEditOrView"
+          component={CourseDetailsEditOrView}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AddTopic"
+          component={AddTopic}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ViewTopics"
+          component={ViewTopics}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Topic"
+          component={Topic}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AddVideo"
+          component={AddVideo}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AddMaterial"
+          component={AddMaterial}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AddAssignment"
+          component={AddAssignment}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="StudentDashboard"
+          component={StudentDashboard}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="FacultyProfile"
+          component={FacultyProfile}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Notifications"
+          component={Notifications}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="NotificationDetails"
+          component={NotificationDetails}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
